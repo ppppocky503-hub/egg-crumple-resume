@@ -19,10 +19,6 @@ npx serve dist
 
 页面需要加载原版的 Three.js 和 cannon-es CDN 模块以及本地的 FBX / EXR 资源，不支持直接用 `file://` 打开。
 
-## GitHub Pages 发布
-
-仓库包含 `.github/workflows/pages.yml`。将源码推送到 `main` 分支后，在仓库 **Settings → Pages → Build and deployment** 中选择 **GitHub Actions**；工作流会将 `dist/` 作为网站发布。发布完成后，GitHub 会在 Pages 设置中显示可供手机访问的网址。
-
 ## 主要文件
 
 - `dist/src/main-vat.js`：原版场景、物理和交互，附加闭合鸡蛋与展开纸页的可见度切换。
