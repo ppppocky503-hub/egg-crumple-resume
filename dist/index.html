@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paper Crumple (VAT)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Yomogi&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #f5f5f5;
+    }
+    #app {
+      width: 100vw;
+      height: 100vh;
+    }
+    #info { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); font:14px Arial,sans-serif; color:#282824; pointer-events:none; }
+    .demo-overlay { position:fixed; inset:0; z-index:3; pointer-events:none; color:#252421; font:12px Arial,Helvetica,sans-serif; }
+    .demo-overlay a { color:inherit; text-decoration:none; pointer-events:auto; }
+    .demo-overlay a:hover { text-decoration:underline; }
+    .demo-top-left { position:absolute; top:18px; left:18px; display:flex; gap:14px; align-items:center; }
+    .demo-top-left strong { font-weight:700; }
+    .demo-top-right { position:absolute; top:18px; right:18px; max-width:290px; text-align:right; }
+    .demo-bottom-left { position:absolute; bottom:10px; left:18px; display:flex; gap:13px; }
+    @media(max-width:600px) { .demo-top-left { flex-wrap:wrap; max-width:260px; gap:7px 12px; } .demo-top-right { display:none; } }
+  </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js",
+        "three/examples/jsm/": "https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/",
+        "cannon-es": "https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="app" aria-label="可拖动、抛掷和展开的鸡蛋简历场景"></div>
+  <div id="info">loading...</div>
+  <div class="demo-overlay">
+    <div class="demo-top-left"><strong>Paper Crumple by <a href="https://item-item.com/" target="_blank" rel="noopener noreferrer">Toi Nagasawa</a></strong><a href="https://tympanus.net/codrops/?p=121428" target="_blank" rel="noopener noreferrer">Tutorial</a><a href="https://github.com/item-develop/paper-crumple-demo" target="_blank" rel="noopener noreferrer">GitHub</a></div>
+    <a class="demo-top-right" href="https://readymag.com/" target="_blank" rel="noopener noreferrer">Make websites that don't all look the same with<br>Readymag →</a>
+    <div class="demo-bottom-left"><span>#three.js</span><span>#webgl</span><span>#physics</span></div>
+  </div>
+  <script type="module" src="./src/main-vat.js"></script>
+</body>
+</html>
