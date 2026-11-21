@@ -19,6 +19,13 @@ npx serve dist
 
 页面需要加载原版的 Three.js 和 cannon-es CDN 模块以及本地的 FBX / EXR 资源，不支持直接用 `file://` 打开。
 
+## 在线查看
+
+- 网站：[GitHub Pages](https://ppppocky503-hub.github.io/egg-crumple-resume/)
+- 手机扫码：![网页二维码](qr/egg-resume-qr.png)
+
+推送到 `main` 分支时，GitHub Actions 会将 `dist/` 发布到 GitHub Pages。
+
 ## 主要文件
 
 - `dist/src/main-vat.js`：原版场景、物理和交互，附加闭合鸡蛋与展开纸页的可见度切换。
