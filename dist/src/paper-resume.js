@@ -54,7 +54,7 @@ function section(ctx, title, y, accent) {
   return y + 65;
 }
 
-function draw(ctx, resume, index) {
+function draw(ctx, resume) {
   ctx.clearRect(0, 0, W, H);
   ctx.fillStyle = "#f0eee6";
   ctx.fillRect(0, 0, W, H);
@@ -71,68 +71,26 @@ function draw(ctx, resume, index) {
   ctx.fillRect(0, 0, W, 18);
   ctx.fillStyle = INK;
   ctx.textBaseline = "alphabetic";
-  ctx.font = font(28, 700);
-  ctx.fillText("个人简历  /  CURRICULUM VITAE", 88, 104);
-  ctx.font = font(26, 500);
-  ctx.textAlign = "right";
-  ctx.fillText(String(index + 1).padStart(2, "0") + " / 07", 936, 104);
-  ctx.textAlign = "left";
-  line(ctx, 88, 125, 936, 125, INK, 3);
-
-  ctx.fillStyle = INK;
-  ctx.font = font(100, 700, serif);
-  ctx.fillText(resume.name, 83, 258);
-  ctx.fillStyle = resume.accent;
-  ctx.font = font(27, 700);
-  ctx.fillText(resume.latin + "  /  " + resume.code, 90, 314);
-  ctx.fillStyle = INK;
-  ctx.font = font(52, 600);
-  ctx.fillText(resume.role, 88, 393);
-  line(ctx, 88, 428, 936, 428, INK, 3);
-
+  ctx.font = font(39, 600);
+  ctx.fillText("候选人编号", 88, 157);
+  ctx.font = font(132, 700, serif);
+  ctx.fillText(resume.id, 83, 312);
+  ctx.font = font(55, 600);
+  ctx.fillText(resume.role, 88, 420);
   ctx.fillStyle = MUTED;
-  ctx.font = font(28, 500);
-  ctx.fillText(resume.city + "    ·    " + resume.years, 88, 476);
-  ctx.textAlign = "right";
-  ctx.fillText(resume.email, 936, 476);
-  ctx.textAlign = "left";
+  ctx.font = font(38);
+  ctx.fillText(resume.years + " 年经验", 88, 491);
 
-  let y = section(ctx, "关于我", 550, resume.accent);
-  ctx.fillStyle = INK;
-  ctx.font = font(31, 400);
-  y = wrap(ctx, resume.intro, 88, y, 848, 47, 2);
-
-  y = section(ctx, "工作经历", 710, resume.accent);
-  for (const item of resume.experience) {
+  for (const [label, value, y] of [
+    ["项目经历", resume.project, 635],
+    ["主要技能", resume.skills, 907],
+    ["学历", resume.education, 1150],
+  ]) {
+    const top = section(ctx, label, y, resume.accent);
     ctx.fillStyle = INK;
-    ctx.font = font(32, 700);
-    ctx.fillText(item.title, 88, y);
-    ctx.textAlign = "right";
-    ctx.fillStyle = MUTED;
-    ctx.font = font(25, 500);
-    ctx.fillText(item.time, 936, y);
-    ctx.textAlign = "left";
-    ctx.fillStyle = resume.accent;
-    ctx.font = font(25, 700);
-    ctx.fillText(item.company, 88, y + 37);
-    ctx.fillStyle = INK;
-    ctx.font = font(24, 400);
-    wrap(ctx, item.detail, 88, y + 71, 848, 35, 2);
-    y += 153;
+    ctx.font = font(46);
+    wrap(ctx, value, 88, top + 15, 848, 65, 2);
   }
-
-  y = section(ctx, "代表项目", 1090, resume.accent);
-  ctx.fillStyle = INK;
-  ctx.font = font(27, 400);
-  wrap(ctx, resume.project, 88, y, 848, 38, 2);
-
-  y = section(ctx, "能力与教育", 1212, resume.accent);
-  ctx.fillStyle = INK;
-  ctx.font = font(24, 600);
-  wrap(ctx, resume.skills.join("   /   "), 88, y, 848, 34, 2);
-  ctx.fillStyle = MUTED;
-  ctx.font = font(24, 400);
-  ctx.fillText(resume.education, 88, 1350);
   line(ctx, 88, 1370, 936, 1370, INK, 2);
 }
 
@@ -140,7 +98,7 @@ if (document.fonts) {
   document.fonts.ready.then(() => {
     for (const state of states) {
       if (!state) continue;
-      draw(state.ctx, state.resume, state.index);
+      draw(state.ctx, state.resume);
       state.texture.needsUpdate = true;
     }
   });
@@ -153,14 +111,14 @@ function materialFor(index) {
   canvas.width = W;
   canvas.height = H;
   const ctx = canvas.getContext("2d");
-  draw(ctx, RESUMES[i], i);
+  draw(ctx, RESUMES[i]);
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
   texture.rotation = Math.PI;
   texture.center.set(0.5, 0.5);
   texture.repeat.set(1, -1);
   const material = new THREE.MeshStandardMaterial({ map: texture, roughness: 0.94, side: THREE.DoubleSide });
-  states[i] = { ctx, resume: RESUMES[i], index: i, texture, material };
+  states[i] = { ctx, resume: RESUMES[i], texture, material };
   return material;
 }
 
