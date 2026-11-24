@@ -23,25 +23,20 @@ function line(ctx, x1, y1, x2, y2, color = "#c7cec5", width = 2) {
   ctx.stroke();
 }
 
-function wrap(ctx, value, x, y, maxWidth, lineHeight, maxLines = 3) {
-  let current = "";
-  let count = 0;
-  for (const char of value) {
-    if (ctx.measureText(current + char).width > maxWidth && current) {
-      ctx.fillText(current.trim(), x, y);
-      y += lineHeight;
-      count++;
-      if (count >= maxLines) return y;
-      current = char;
+function paragraph(ctx, tokens, separator, y, leading) {
+  let lineText = "";
+  for (const token of tokens) {
+    const next = lineText ? lineText + separator + token : token;
+    if (lineText && ctx.measureText(next).width > 848) {
+      ctx.fillText(lineText, 88, y);
+      y += leading;
+      lineText = token;
     } else {
-      current += char;
+      lineText = next;
     }
   }
-  if (current && count < maxLines) {
-    ctx.fillText(current.trim(), x, y);
-    y += lineHeight;
-  }
-  return y;
+  ctx.fillText(lineText, 88, y);
+  return y + leading;
 }
 
 function section(ctx, title, y, accent) {
@@ -71,25 +66,28 @@ function draw(ctx, resume) {
   ctx.fillRect(0, 0, W, 18);
   ctx.fillStyle = INK;
   ctx.textBaseline = "alphabetic";
-  ctx.font = font(39, 600);
-  ctx.fillText("候选人编号", 88, 157);
-  ctx.font = font(132, 700, serif);
-  ctx.fillText(resume.id, 83, 312);
-  ctx.font = font(55, 600);
-  ctx.fillText(resume.role, 88, 420);
+  ctx.font = font(32, 600);
+  ctx.fillText("候选人编号 / Candidate ID", 88, 108);
+  ctx.font = font(92, 700, serif);
+  ctx.fillText(resume.id, 83, 218);
+  ctx.font = font(43, 600);
+  ctx.fillText(resume.role.zh + " / " + resume.role.en, 88, 294);
   ctx.fillStyle = MUTED;
-  ctx.font = font(38);
-  ctx.fillText(resume.years + " 年经验", 88, 491);
+  ctx.font = font(36);
+  const days = resume.days.toLocaleString("en-US");
+  ctx.fillText("出壳第 " + days + " 天 / " + days + " days since hatching", 88, 360);
 
-  for (const [label, value, y] of [
-    ["项目经历", resume.project, 635],
-    ["主要技能", resume.skills, 907],
-    ["学历", resume.education, 1150],
+  for (const [label, copy, y] of [
+    ["鸡舍战绩 / Coop record", resume.project, 451],
+    ["看家本领 / Coop skills", resume.skills, 765],
+    ["破壳文凭 / Diploma", resume.education, 1079],
   ]) {
     const top = section(ctx, label, y, resume.accent);
-    ctx.fillStyle = INK;
-    ctx.font = font(46);
-    wrap(ctx, value, 88, top + 15, 848, 65, 2);
+    ctx.font = font(41, 500);
+    const afterChinese = paragraph(ctx, Array.from(copy.zh), "", top, 51);
+    ctx.fillStyle = MUTED;
+    ctx.font = font(36);
+    paragraph(ctx, copy.en.split(" "), " ", afterChinese + 7, 44);
   }
   line(ctx, 88, 1370, 936, 1370, INK, 2);
 }
