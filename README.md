@@ -1,12 +1,12 @@
 # Egg Crumple · 简历
 
-基于 [item-develop/paper-crumple-demo](https://github.com/item-develop/paper-crumple-demo) 的原版 Three.js / cannon-es / Houdini VAT 场景。保留原版的红色背景、地面、28 个对象分批落下、碰撞滚动、拖动抛掷、点击展开以及再次点击时的收起抛回路径。闭合状态改为程序生成的三维鸡蛋，展开后的纸页显示七份不同职业方向的虚构简历，循环分配给场景中的鸡蛋。
+基于 [item-develop/paper-crumple-demo](https://github.com/item-develop/paper-crumple-demo) 的原版 Three.js / cannon-es / Houdini VAT 场景。保留原版的红色背景、地面、28 个对象分批落下、碰撞滚动、拖动抛掷、点击展开以及再次点击时的收起抛回路径。闭合状态改为程序生成的三维鸡蛋，展开后的纸页显示七份中英双语的鸡蛋评选档案，循环分配给场景中的鸡蛋。
 
 ## 使用
 
 - 点击静止的鸡蛋，沿原版 VAT 动画路径展开简历纸页。再次点击展开的纸页可收起。
 - 拖动鸡蛋，松手后按原版物理规则抛掷；滚动中的鸡蛋可以接住。
-- 在 `dist/src/resumes.js` 修改候选人编号、出壳天数，以及中英文岗位、项目、技能与学历。
+- 在 `dist/src/resumes.js` 修改候选蛋编号、出身档案、品质背书、内部品质与综合评级。
 - 原版调试参数仍可使用，例如 `?papers=1` 和 `?gui=on`。
 
 ## 本地运行

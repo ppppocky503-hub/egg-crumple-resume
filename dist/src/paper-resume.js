@@ -66,29 +66,34 @@ function draw(ctx, resume) {
   ctx.fillRect(0, 0, W, 18);
   ctx.fillStyle = INK;
   ctx.textBaseline = "alphabetic";
-  ctx.font = font(32, 600);
-  ctx.fillText("候选人编号 / Candidate ID", 88, 108);
-  ctx.font = font(92, 700, serif);
-  ctx.fillText(resume.id, 83, 218);
-  ctx.font = font(43, 600);
-  ctx.fillText(resume.role.zh + " / " + resume.role.en, 88, 294);
+  ctx.font = font(38, 600);
+  ctx.fillText(resume.title.en, 88, 123);
+  ctx.font = font(81, 700, serif);
+  ctx.fillText(resume.title.zh, 83, 236);
   ctx.fillStyle = MUTED;
   ctx.font = font(36);
-  const days = resume.days.toLocaleString("en-US");
-  ctx.fillText("出壳第 " + days + " 天 / " + days + " days since hatching", 88, 360);
+  ctx.fillText("NO. " + resume.id, 88, 311);
 
   for (const [label, copy, y] of [
-    ["鸡舍战绩 / Coop record", resume.project, 451],
-    ["看家本领 / Coop skills", resume.skills, 765],
-    ["破壳文凭 / Diploma", resume.education, 1079],
+    ["出身档案 / Origin", resume.origin, 400],
+    ["品质背书 / Credentials", resume.endorsement, 641],
+    ["内部品质 / Inside the shell", resume.assessment, 882],
   ]) {
     const top = section(ctx, label, y, resume.accent);
-    ctx.font = font(41, 500);
-    const afterChinese = paragraph(ctx, Array.from(copy.zh), "", top, 51);
+    ctx.font = font(43, 500);
+    const afterChinese = paragraph(ctx, Array.from(copy.zh), "", top, 54);
     ctx.fillStyle = MUTED;
-    ctx.font = font(36);
-    paragraph(ctx, copy.en.split(" "), " ", afterChinese + 7, 44);
+    ctx.font = font(35);
+    paragraph(ctx, copy.en.split(" "), " ", afterChinese, 43);
   }
+
+  section(ctx, "综合评级 / Overall rating", 1140, resume.accent);
+  ctx.fillStyle = resume.accent;
+  ctx.font = font(66, 700);
+  ctx.fillText(resume.grade === "待定" ? "待定 / Pending" : resume.grade, 88, 1252);
+  ctx.fillStyle = INK;
+  ctx.font = font(39, 600);
+  ctx.fillText(resume.decision.zh + " / " + resume.decision.en, 88, 1330);
   line(ctx, 88, 1370, 936, 1370, INK, 2);
 }
 
